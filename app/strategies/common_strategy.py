@@ -1,10 +1,12 @@
-from strategies.base import DownloadStrategy
+from app.strategies.base import DownloadStrategy
+import os
 
 
-class YoutubeStrategy(DownloadStrategy):
+class CommonStrategy(DownloadStrategy):
     def ydl_opts(self, path, only_sound=False, extra_parameters = None):
 
         extra_parameters = extra_parameters or set()
+        abs_path = os.path.abspath(path)
         is_not_playlist = "playlist" not in extra_parameters
 
         format_download = (
@@ -16,7 +18,7 @@ class YoutubeStrategy(DownloadStrategy):
         options = {
             'format': format_download,
             'noplaylist': is_not_playlist,
-            'outtmpl': f'{path}/%(title)s.%(ext)s',
+            'outtmpl': f'{abs_path}/%(title)s.%(ext)s',
         }
 
         if only_sound:
@@ -26,4 +28,3 @@ class YoutubeStrategy(DownloadStrategy):
             }]
 
         return options
-

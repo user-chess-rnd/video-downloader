@@ -1,10 +1,17 @@
 from urllib.parse import urlparse
-from platform import VideoPlatform
+from enum import Enum
+
+class VideoPlatform(Enum):
+    YOUTUBE = "youtube"
+    INSTAGRAM = "instagram"
+    TIKTOK = "tiktok"
+    X = "x"
+    OTHER = "other"
+
 
 class VideoInfo:
-    def __init__(self, url: str, path: str):
+    def __init__(self, url: str):
         self.url = url
-        self.download_path = path
         self.platform = detect_platform(url)
 
 def detect_platform(url: str) -> VideoPlatform:
@@ -19,7 +26,10 @@ def detect_platform(url: str) -> VideoPlatform:
     if "x.com" in domain:
         return VideoPlatform.X
     
-    raise ValueError("Plataforma no soportada")
+    try:
+        return VideoPlatform.OTHER
+    except:
+        raise ValueError("Plataforma no soportada")
 
 
 
