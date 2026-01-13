@@ -15,6 +15,17 @@ class VideoDownloader:
     @staticmethod
     def ensure_path(path: str):
         os.makedirs(path, exist_ok=True)
+
+    def get_data_video(self) -> dict:
+        yt_opts = {}
+        try:
+            with yt_dlp.YoutubeDL(yt_opts) as ydl:
+                info = ydl.extract_info(url=self.video.url, download=False)
+
+        except Exception as e:
+            raise TypeError(f"Error al obtener datos del video: {e}")
+        
+        return ydl.sanitize_info(info)
     
     def download(self, path: str, only_sound=False, extra_parameters=None) -> str:
         """

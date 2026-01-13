@@ -1,11 +1,4 @@
-from app.services.downloader import VideoDownloader
-from app.models.video import VideoInfo
+import uvicorn
 
-# PUNTO DE ENTRADA A LA API
-
-url = ""
-vid_info = VideoInfo(url=url)
-VideoDownloader(vid_info).download(path="./downloads",only_sound=False)
-
-
-
+if __name__ == "__main__":
+    uvicorn.run("app.api.v1.router:app", host="127.0.0.1", port=8000, reload=True)
